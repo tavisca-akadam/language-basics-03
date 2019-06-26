@@ -40,13 +40,10 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
+            Helper helper = new Helper();
+            int[] calories = helper.CalculateCalories(fat, carbs, protein);
             int size = protein.Length;
-            int[] calories = new int[size];
-
-            for(int i = 0; i < size; i++)
-                calories[i] = ( (protein[i] + carbs[i]) * 5 ) + (fat[i] * 9);
-            
-            int[] result =  new int[dietPlans.Length];
+            int[] selectMealResult =  new int[dietPlans.Length];
 
             for(int i = 0; i < dietPlans.Length; i++)
             {
@@ -54,92 +51,56 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                 for(int j = 0; j < size; j++)
                     indices[j] = true;
                 
-                string temp = dietPlans[i];
+                string dietPlan = dietPlans[i];
 
-                for(int j = 0; j < temp.Length; j++)
+                for(int j = 0; j < dietPlan.Length; j++)
                 {
-                    switch(temp[j])
+                    switch(dietPlan[j])
                     {
                         case 't':
-                        minimum(indices, calories, size);
+                        helper.minimum(indices, calories, size);
                         break;
 
                         case 'T':
-                        maximum(indices, calories, size);
+                        helper.maximum(indices, calories, size);
                         break;
 
                         case 'f':
-                        minimum(indices, fat, size);
+                        helper.minimum(indices, fat, size);
                         break;
 
                         case 'F':
-                        maximum(indices, fat, size);
+                        helper.maximum(indices, fat, size);
                         break;
 
                         case 'c':
-                        minimum(indices, carbs, size);
+                        helper.minimum(indices, carbs, size);
                         break;
 
                         case 'C':
-                        maximum(indices, carbs, size);
+                        helper.maximum(indices, carbs, size);
                         break;
 
                         case 'p':
-                        minimum(indices, protein, size);
+                        helper.minimum(indices, protein, size);
                         break;
 
                         case 'P':
-                        maximum(indices, protein, size);
+                        helper.maximum(indices, protein, size);
                         break;
                     }
                 }
                 for(int l = 0; l < size; l++)
                     if(indices[l])
                     {
-                        result[i] = l;
+                        selectMealResult[i] = l;
                         break;
                     }
             }
-        return result;
+        return selectMealResult;
 
             
             throw new NotImplementedException();
-        }
-
-
-
-        public static void minimum(bool[] ar, int[] val, int size)
-        {
-            int minval = int.MaxValue;
-            for(int i = 0; i < size; i++)
-            {
-                if(ar[i] && minval > val[i])
-                    minval = val[i];
-            }
-
-            for(int i = 0; i < size; i++)
-            {
-                if(ar[i] && minval != val[i])
-                    ar[i] = false;
-            }
-
-        }
-
-        public static void maximum(bool[] ar, int[] val, int size)
-        {
-            int maxval = int.MinValue;
-            for(int i = 0; i < size; i++)
-            {
-                if(ar[i] && maxval < val[i])
-                    maxval = val[i];
-            }
-
-            for(int i = 0; i < size; i++)
-            {
-                if(ar[i] && maxval != val[i])
-                    ar[i] = false;
-            }
-
         }
     }
 }
