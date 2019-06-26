@@ -40,7 +40,66 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
-            // Add your code here.
+            Helper helper = new Helper();
+            int[] calories = helper.CalculateCalories(fat, carbs, protein);
+            int size = protein.Length;
+            int[] selectMealResult =  new int[dietPlans.Length];
+
+            for(int i = 0; i < dietPlans.Length; i++)
+            {
+                bool[] indices = new bool[size];
+                for(int j = 0; j < size; j++)
+                    indices[j] = true;
+                
+                string dietPlan = dietPlans[i];
+
+                for(int j = 0; j < dietPlan.Length; j++)
+                {
+                    switch(dietPlan[j])
+                    {
+                        case 't':
+                        helper.minimum(indices, calories, size);
+                        break;
+
+                        case 'T':
+                        helper.maximum(indices, calories, size);
+                        break;
+
+                        case 'f':
+                        helper.minimum(indices, fat, size);
+                        break;
+
+                        case 'F':
+                        helper.maximum(indices, fat, size);
+                        break;
+
+                        case 'c':
+                        helper.minimum(indices, carbs, size);
+                        break;
+
+                        case 'C':
+                        helper.maximum(indices, carbs, size);
+                        break;
+
+                        case 'p':
+                        helper.minimum(indices, protein, size);
+                        break;
+
+                        case 'P':
+                        helper.maximum(indices, protein, size);
+                        break;
+                    }
+                }
+                for(int l = 0; l < size; l++)
+                    if(indices[l])
+                    {
+                        selectMealResult[i] = l;
+                        break;
+                    }
+            }
+        return selectMealResult;
+
+            
             throw new NotImplementedException();
         }
     }
